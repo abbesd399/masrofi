@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Masrofi (مصروفي) - Mobile UI Prototype & Desktop Studio</title>
+  
+  <!-- Tailwind CSS via CDN for rapid responsive layout utilities -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            masrofi: {
+              50: '#ecfdf5',
+              100: '#d1fae5',
+              400: '#34d399',
+              500: '#10b981',
+              600: '#059669',
+              700: '#047857',
+              800: '#065f46',
+              900: '#064e3b',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Google Fonts: Cairo, Tajawal, Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+
+  <!-- Lucide Icons Official CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Custom Stylesheet integrating 2026 Fintech standards -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="theme-dark">
+
+  <div class="studio-canvas">
+    
+    <!-- ====================================================================
+         1. Desktop Studio Header & Global Controls Toolbar
+         ==================================================================== -->
+    <header class="studio-header">
+      <div class="studio-brand">
+        <div class="brand-logo-badge">
+          <!-- Sleek Geometric Fintech Emblem: Emerald Shield & Mint Knot -->
+          <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2L3 7V12C3 17.5 6.8 22.6 12 24C17.2 22.6 21 17.5 21 12V7L12 2Z" fill="url(#brandGrad)" />
+            <path d="M12 6L7 9V13C7 16.2 9.1 19.1 12 20C14.9 19.1 17 16.2 17 13V9L12 6Z" fill="#ffffff" fill-opacity="0.22" />
+            <path d="M12 8.5L9.5 10.5V13.5C9.5 15.2 10.5 16.8 12 17.3C13.5 16.8 14.5 15.2 14.5 13.5V10.5L12 8.5Z" fill="#ffffff" />
+            <defs>
+              <linearGradient id="brandGrad" x1="3" y1="2" x2="21" y2="24" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#34D399" />
+                <stop offset="0.5" stop-color="#10B981" />
+                <stop offset="1" stop-color="#047857" />
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+        <div>
+          <div class="brand-title" data-i18n="appName">مصروفي • Masrofi</div>
+          <div class="brand-subtitle" data-i18n="studioSubtitle">استوديو استعراض واجهة الهاتف (iOS 18 & Android M3)</div>
+        </div>
+      </div>
+
+      <div class="studio-controls">
+        <!-- OS Design System Switcher -->
+        <div class="studio-pill-group">
+          <button class="studio-pill-btn btn-os-switch active" data-os="ios" title="Apple iOS 18 Design">
+            <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
+              <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 4.15c.61-.75 1.04-1.8 0.92-2.85-.92.04-2.02.62-2.67 1.37-.58.67-1.09 1.74-.96 2.77 1.03.08 2.08-.53 2.71-1.29z"/>
+            </svg>
+            <span data-i18n="modeIos">iOS 18</span>
+          </button>
+          <button class="studio-pill-btn btn-os-switch" data-os="android" title="Google Material 3">
+            <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
+              <path d="M6 18c0 .55.45 1 1 1h1v3.5c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5V19h2v3.5c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5V19h1c.55 0 1-.45 1-1V8H6v10zM3.5 8C2.67 8 2 8.67 2 9.5v7c0 .83.67 1.5 1.5 1.5S5 17.33 5 16.5v-7C5 8.67 4.33 8 3.5 8zm17 0c-.83 0-1.5.67-1.5 1.5v7c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5v-7c0-.83-.67-1.5-1.5-1.5zm-4.97-4.84l1.3-1.3c.2-.2.2-.51 0-.71-.2-.2-.51-.2-.71 0l-1.48 1.48C13.85 2.23 12.95 2 12 2c-.96 0-1.86.23-2.66.63L7.85 1.15c-.2-.2-.51-.2-.71 0-.2.2-.2.51 0 .71l1.31 1.31C6.73 4.29 5.5 6.01 5.5 8h13c0-1.99-1.23-3.71-2.97-4.84zM9 6c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm6 0c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1z"/>
+            </svg>
+            <span data-i18n="modeAndroid">Android M3</span>
+          </button>
+        </div>
+
+        <!-- Viewport Mode (Single vs Dual Side-by-Side) -->
+        <div class="studio-pill-group">
+          <button class="studio-pill-btn btn-view-switch active" data-view="single">
+            <i data-lucide="smartphone" class="w-3.5 h-3.5"></i>
+            <span data-i18n="viewSingle">هاتف واحد</span>
+          </button>
+          <button class="studio-pill-btn btn-view-switch" data-view="dual">
+            <i data-lucide="columns-2" class="w-3.5 h-3.5"></i>
+            <span data-i18n="viewDual">عرض الهاتفين معاً</span>
+          </button>
+        </div>
+
+        <!-- Theme Switcher (Dark vs Light) -->
+        <div class="studio-pill-group">
+          <button class="studio-pill-btn btn-theme-switch active" data-theme="dark">
+            <i data-lucide="moon" class="w-3.5 h-3.5"></i>
+            <span data-i18n="themeDark">داكن</span>
+          </button>
+          <button class="studio-pill-btn btn-theme-switch" data-theme="light">
+            <i data-lucide="sun" class="w-3.5 h-3.5"></i>
+            <span data-i18n="themeLight">فاتح</span>
+          </button>
+        </div>
+
+        <!-- Language Switcher (Arabic RTL, French LTR, English LTR) -->
+        <div class="studio-pill-group">
+          <button class="studio-pill-btn btn-lang-switch active" data-lang="ar">العربية</button>
+          <button class="studio-pill-btn btn-lang-switch" data-lang="fr">Français</button>
+          <button class="studio-pill-btn btn-lang-switch" data-lang="en">English</button>
+        </div>
+      </div>
+    </header>
+
+    <!-- ====================================================================
+         2. Live Scenario Simulation Quick Bar
+         ==================================================================== -->
+    <div class="scenario-bar">
+      <span class="scenario-label">
+        <i data-lucide="sparkles" class="w-4 h-4 text-emerald-400"></i>
+        <span data-i18n="scenarioLabel">محاكاة سيناريوهات حية:</span>
+      </span>
+      <button class="scenario-pill" id="sim-trigger-alert">
+        <i data-lucide="bell-ring" class="w-3.5 h-3.5 text-amber-400"></i>
+        <span data-i18n="triggerAlert">تنبيه بداية الشهر</span>
+      </button>
+      <button class="scenario-pill" id="sim-trigger-scan">
+        <i data-lucide="scan-line" class="w-3.5 h-3.5 text-emerald-400"></i>
+        <span data-i18n="triggerScan">مسح فاتورة سونلغاز</span>
+      </button>
+      <button class="scenario-pill" id="sim-trigger-family">
+        <i data-lucide="shopping-bag" class="w-3.5 h-3.5 text-sky-400"></i>
+        <span data-i18n="triggerFamilySpend">شراء عائلي محاكى</span>
+      </button>
+    </div>
+
+    <!-- ====================================================================
+         3. Studio Stage & Phone Frames (Single or Dual View)
+         ==================================================================== -->
+    <main class="studio-stage" id="studio-stage">
+
+      <!-- ================================================================
+           PHONE 1: iOS 18 (Apple HIG / iPhone 16 Pro)
+           ================================================================ -->
+      <div class="device-wrapper" id="ios-device-wrapper">
+        <div class="device-header-label">
+          <svg class="w-3.5 h-3.5 fill-current text-emerald-400" viewBox="0 0 24 24">
+            <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 4.15c.61-.75 1.04-1.8 0.92-2.85-.92.04-2.02.62-2.67 1.37-.58.67-1.09 1.74-.96 2.77 1.03.08 2.08-.53 2.71-1.29z"/>
+          </svg>
+          <span>iPhone 16 Pro (iOS 18)</span>
+        </div>
+
+        <div class="device-chassis ios-mode">
+          
+          <!-- iOS Status Bar & Dynamic Island -->
+          <div class="status-bar">
+            <span class="status-time">9:41</span>
+            
+            <!-- Dynamic Island with Interactive Expansion -->
+            <div class="dynamic-island" id="ios-dynamic-island">
+              <div class="dynamic-island-content">
+                <div class="island-icon-badge">
+                  <i data-lucide="bell" class="w-3.5 h-3.5 text-amber-400"></i>
+                </div>
+                <div class="island-text-area">
+                  <span class="island-title" data-i18n="islandTitle">Masrofi • سونلغاز قادمة</span>
+                  <span class="island-sub" data-i18n="islandSub">مستحقة في 15 نوفمبر</span>
+                </div>
+                <span class="island-amount" data-i18n="islandAmount">8,400 د.ج</span>
+              </div>
+            </div>
+
+            <!-- iOS System Icons (Cellular, WiFi, Battery) -->
+            <div class="status-icons">
+              <!-- Cellular Signal 4 bars -->
+              <svg class="w-4 h-3.5" viewBox="0 0 17 12" fill="currentColor">
+                <rect x="0" y="9" width="2.8" height="3" rx="0.7"/>
+                <rect x="4.4" y="6" width="2.8" height="6" rx="0.7"/>
+                <rect x="8.8" y="3" width="2.8" height="9" rx="0.7"/>
+                <rect x="13.2" y="0" width="2.8" height="12" rx="0.7"/>
+              </svg>
+              <!-- WiFi Icon -->
+              <svg class="w-4 h-3.5" viewBox="0 0 16 12" fill="currentColor">
+                <path d="M8 9.5a1.5 1.5 0 100 3 1.5 1.5 0 000-3zm-3.5-2.5a5 5 0 017 0 .8.8 0 01-1.1 1.1 3.4 3.4 0 00-4.8 0 .8.8 0 01-1.1-1.1zm-3-3a9.2 9.2 0 0113 0 .8.8 0 01-1.1 1.1 7.6 7.6 0 00-10.8 0 .8.8 0 01-1.1-1.1z"/>
+              </svg>
+              <!-- Battery with fill -->
+              <div class="ios-battery-pill">
+                <div class="ios-battery-level"></div>
+                <div class="ios-battery-terminal"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Phone Inner Screen Content -->
+          <div class="device-screen" id="ios-device-screen">
+            
+            <!-- TAB 1: HOME DASHBOARD -->
+            <section class="tab-content-view active" data-tab-content="home">
+              <!-- Start of Month Proactive Alert Banner -->
+              <div class="start-of-month-banner-target"></div>
+
+              <!-- Hero Salary Card (Super Designer Mesh & Haikei Waves & Rive Gauge) -->
+              <div class="hero-salary-card hero-salary-card-target"></div>
+
+              <!-- Live Family Activity Strip (Mobbin / 365 Web Resources) -->
+              <div class="family-activity-target"></div>
+            </section>
+
+            <!-- TAB 2: BILLS & CAR HUB -->
+            <section class="tab-content-view" data-tab-content="bills">
+              <!-- Segmented Control (Apple HIG Pills) -->
+              <div class="segmented-control">
+                <button class="segmented-btn btn-seg-switch btn-seg-bills active" data-subtab="bills">
+                  <i data-lucide="receipt" class="w-3.5 h-3.5 inline ml-1"></i>
+                  <span data-i18n="segBills">فواتير هذا الشهر</span>
+                </button>
+                <button class="segmented-btn btn-seg-switch btn-seg-car" data-subtab="car">
+                  <i data-lucide="car" class="w-3.5 h-3.5 inline ml-1"></i>
+                  <span data-i18n="segCar">التزامات السيارة</span>
+                </button>
+              </div>
+
+              <!-- Bills / Car Dynamic Content -->
+              <div class="bills-tab-content-target"></div>
+            </section>
+
+            <!-- TAB 3: FAMILY SHARED WALLET -->
+            <section class="tab-content-view" data-tab-content="family">
+              <div class="family-tab-content-target"></div>
+            </section>
+
+            <!-- TAB 4: AI COACH & INSIGHTS -->
+            <section class="tab-content-view" data-tab-content="coach">
+              <div class="coach-tab-content-target"></div>
+            </section>
+
+          </div>
+
+          <!-- Bottom Navigation: iOS 18 Liquid Frosted Glass Tab Bar -->
+          <div class="bottom-nav-container">
+            <nav class="ios-tab-bar">
+              <button class="ios-tab-item active" data-nav-tab="home">
+                <div class="ios-tab-icon-wrap">
+                  <i data-lucide="home" class="w-5 h-5"></i>
+                </div>
+                <span data-i18n="homeTab">الرئيسية</span>
+              </button>
+
+              <button class="ios-tab-item" data-nav-tab="bills">
+                <div class="ios-tab-icon-wrap">
+                  <i data-lucide="receipt" class="w-5 h-5"></i>
+                </div>
+                <span data-i18n="billsCarTab">الفواتير</span>
+              </button>
+              
+              <!-- Central Camera Scanner Action -->
+              <button class="ios-camera-fab btn-open-camera" title="الماسح الذكي">
+                <div class="fab-glow-halo"></div>
+                <i data-lucide="scan" class="w-6 h-6 text-white relative z-10"></i>
+              </button>
+
+              <button class="ios-tab-item" data-nav-tab="family">
+                <div class="ios-tab-icon-wrap">
+                  <i data-lucide="users" class="w-5 h-5"></i>
+                </div>
+                <span data-i18n="familyTab">العائلة</span>
+              </button>
+
+              <button class="ios-tab-item" data-nav-tab="coach">
+                <div class="ios-tab-icon-wrap">
+                  <i data-lucide="sparkles" class="w-5 h-5"></i>
+                </div>
+                <span data-i18n="coachTab">المدرب</span>
+              </button>
+            </nav>
+            <div class="ios-home-indicator"></div>
+          </div>
+
+        </div>
+      </div>
+
+
+      <!-- ================================================================
+           PHONE 2: Android (Material Design 3 / Pixel 9 Pro)
+           ================================================================ -->
+      <div class="device-wrapper" id="android-device-wrapper" style="display: none;">
+        <div class="device-header-label">
+          <svg class="w-3.5 h-3.5 fill-current text-sky-400" viewBox="0 0 24 24">
+            <path d="M6 18c0 .55.45 1 1 1h1v3.5c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5V19h2v3.5c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5V19h1c.55 0 1-.45 1-1V8H6v10zM3.5 8C2.67 8 2 8.67 2 9.5v7c0 .83.67 1.5 1.5 1.5S5 17.33 5 16.5v-7C5 8.67 4.33 8 3.5 8zm17 0c-.83 0-1.5.67-1.5 1.5v7c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5v-7c0-.83-.67-1.5-1.5-1.5z"/>
+          </svg>
+          <span>Pixel 9 Pro (Material 3)</span>
+        </div>
+
+        <div class="device-chassis android-mode">
+          
+          <!-- Android Status Bar & Punch Hole -->
+          <div class="status-bar">
+            <span class="status-time">10:00</span>
+            <div class="punch-hole"></div>
+            <div class="status-icons">
+              <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 3L2 21h20L12 3z"/>
+              </svg>
+              <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 4C7.31 4 3.07 5.9 0 8.98L12 21 24 8.98C20.93 5.9 16.69 4 12 4z"/>
+              </svg>
+              <div class="m3-battery-indicator">
+                <span class="m3-battery-text">100%</span>
+                <i data-lucide="battery" class="w-3.5 h-3.5"></i>
+              </div>
+            </div>
+          </div>
+
+          <!-- Phone Inner Screen Content -->
+          <div class="device-screen" id="android-device-screen">
+            
+            <!-- TAB 1: HOME DASHBOARD -->
+            <section class="tab-content-view active" data-tab-content="home">
+              <div class="start-of-month-banner-target"></div>
+              <div class="hero-salary-card hero-salary-card-target"></div>
+              <div class="family-activity-target"></div>
+            </section>
+
+            <!-- TAB 2: BILLS & CAR HUB -->
+            <section class="tab-content-view" data-tab-content="bills">
+              <div class="segmented-control">
+                <button class="segmented-btn btn-seg-switch btn-seg-bills active" data-subtab="bills">
+                  <i data-lucide="receipt" class="w-3.5 h-3.5 inline ml-1"></i>
+                  <span data-i18n="segBills">فواتير هذا الشهر</span>
+                </button>
+                <button class="segmented-btn btn-seg-switch btn-seg-car" data-subtab="car">
+                  <i data-lucide="car" class="w-3.5 h-3.5 inline ml-1"></i>
+                  <span data-i18n="segCar">التزامات السيارة</span>
+                </button>
+              </div>
+              <div class="bills-tab-content-target"></div>
+            </section>
+
+            <!-- TAB 3: FAMILY SHARED WALLET -->
+            <section class="tab-content-view" data-tab-content="family">
+              <div class="family-tab-content-target"></div>
+            </section>
+
+            <!-- TAB 4: AI COACH & INSIGHTS -->
+            <section class="tab-content-view" data-tab-content="coach">
+              <div class="coach-tab-content-target"></div>
+            </section>
+
+          </div>
+
+          <!-- Android M3 Floating Action Button (FAB) -->
+          <button class="android-fab btn-open-camera" title="الماسح الذكي">
+            <i data-lucide="scan" class="w-6 h-6 text-white"></i>
+          </button>
+
+          <!-- Bottom Navigation: Material Design 3 Pill Navigation Bar -->
+          <div class="bottom-nav-container">
+            <nav class="android-nav-bar">
+              <button class="m3-tab-item active" data-nav-tab="home">
+                <div class="m3-pill-indicator">
+                  <i data-lucide="home" class="w-5 h-5"></i>
+                </div>
+                <span class="m3-tab-label" data-i18n="homeTab">الرئيسية</span>
+              </button>
+
+              <button class="m3-tab-item" data-nav-tab="bills">
+                <div class="m3-pill-indicator">
+                  <i data-lucide="receipt" class="w-5 h-5"></i>
+                </div>
+                <span class="m3-tab-label" data-i18n="billsCarTab">الفواتير</span>
+              </button>
+
+              <div style="width: 56px;"></div> <!-- Gap for FAB -->
+
+              <button class="m3-tab-item" data-nav-tab="family">
+                <div class="m3-pill-indicator">
+                  <i data-lucide="users" class="w-5 h-5"></i>
+                </div>
+                <span class="m3-tab-label" data-i18n="familyTab">العائلة</span>
+              </button>
+
+              <button class="m3-tab-item" data-nav-tab="coach">
+                <div class="m3-pill-indicator">
+                  <i data-lucide="sparkles" class="w-5 h-5"></i>
+                </div>
+                <span class="m3-tab-label" data-i18n="coachTab">المدرب</span>
+              </button>
+            </nav>
+            <div class="m3-gesture-bar"></div>
+          </div>
+
+        </div>
+      </div>
+
+    </main>
+
+    <!-- ====================================================================
+         4. AI Camera Scanner Slide-up Bottom Sheet (ProtoPie / PageFlows)
+         ==================================================================== -->
+    <div class="bottom-sheet-backdrop" id="scanner-sheet-backdrop">
+      <div class="bottom-sheet-modal">
+        <div class="sheet-drag-handle btn-close-sheet" style="cursor: pointer;"></div>
+
+        <div class="sheet-header">
+          <div class="flex items-center gap-3">
+            <div class="sheet-header-icon">
+              <i data-lucide="scan-line" class="w-5 h-5 text-emerald-400"></i>
+            </div>
+            <div>
+              <h2 class="sheet-title" data-i18n="scannerTitle">
+                الماسح الذكي بالذكاء الاصطناعي
+              </h2>
+              <p id="scanner-status-text" class="sheet-subtitle" data-i18n="scannerSubtitle">
+                تعرف فوري على المبالغ والتواريخ ومطابقة الأسعار
+              </p>
+            </div>
+          </div>
+          <button class="btn-close-sheet sheet-close-btn" title="إغلاق">
+            <i data-lucide="x" class="w-4 h-4"></i>
+          </button>
+        </div>
+
+        <!-- Preset Selector Pills -->
+        <div class="preset-picker-container">
+          <div class="preset-picker-label" data-i18n="selectPreset">
+            اختر وثيقة تجريبية للمحاكاة:
+          </div>
+          <div class="preset-pill-list">
+            <button class="studio-pill-btn preset-picker-btn active" data-preset="sonelgaz">
+              <i data-lucide="zap" class="w-3.5 h-3.5 text-amber-400"></i>
+              <span>سونلغاز</span>
+            </button>
+            <button class="studio-pill-btn preset-picker-btn" data-preset="saa">
+              <i data-lucide="shield-check" class="w-3.5 h-3.5 text-sky-400"></i>
+              <span>تأمين SAA</span>
+            </button>
+            <button class="studio-pill-btn preset-picker-btn" data-preset="naftal">
+              <i data-lucide="fuel" class="w-3.5 h-3.5 text-amber-500"></i>
+              <span>وقود نفطال</span>
+            </button>
+            <button class="studio-pill-btn preset-picker-btn" data-preset="uno">
+              <i data-lucide="shopping-cart" class="w-3.5 h-3.5 text-emerald-400"></i>
+              <span>سوبرماركت Uno</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Viewfinder with MagicPattern Perspective Grid & Laser Beam & HUD Reticles -->
+        <div class="scanner-viewfinder">
+          <div class="magicpattern-grid"></div>
+          
+          <!-- Cyberpunk / High-Tech HUD Reticle Corners -->
+          <div class="hud-corner top-left"></div>
+          <div class="hud-corner top-right"></div>
+          <div class="hud-corner bottom-left"></div>
+          <div class="hud-corner bottom-right"></div>
+          
+          <div class="laser-beam"></div>
+          
+          <div id="scanner-document-preview" class="scanner-doc-wrapper">
+            <!-- Document preview SVG loaded dynamically -->
+          </div>
+        </div>
+
+        <!-- Action Button to Trigger AI Scanning -->
+        <button id="btn-run-ai-scan" class="studio-action-btn primary w-full justify-center py-3.5 text-sm font-bold shadow-lg shadow-emerald-900/30 mb-3">
+          <i data-lucide="sparkles" class="w-4 h-4 text-emerald-200"></i>
+          <span data-i18n="simulateScanBtn">بدء مسح الوثيقة بالذكاء الاصطناعي</span>
+        </button>
+
+        <!-- Extracted Data Confirmation Card -->
+        <div id="extracted-details-card" class="clean-card extracted-card" style="display: none;">
+          <div class="flex justify-between items-center mb-3">
+            <span class="flex items-center gap-1.5 text-xs font-bold text-emerald-400">
+              <i data-lucide="check-circle" class="w-4 h-4 text-emerald-400"></i>
+              <span>تم استخراج البيانات بدقة 99.4%</span>
+            </span>
+            <span id="ext-badge" class="ext-badge-pill" style="display: none;"></span>
+          </div>
+
+          <div class="grid grid-cols-2 gap-3 text-xs mb-3.5">
+            <div class="ext-item-box">
+              <span class="ext-label" data-i18n="extractedMerchant">الجهة:</span>
+              <div id="ext-merchant" class="ext-value">-</div>
+            </div>
+            <div class="ext-item-box">
+              <span class="ext-label" data-i18n="extractedAmount">المبلغ:</span>
+              <div id="ext-amount" class="ext-value text-emerald-400 font-extrabold">-</div>
+            </div>
+            <div class="ext-item-box">
+              <span class="ext-label" data-i18n="extractedDate">تاريخ الاستحقاق:</span>
+              <div id="ext-date" class="ext-value">-</div>
+            </div>
+            <div class="ext-item-box">
+              <span class="ext-label" data-i18n="extractedCategory">التصنيف:</span>
+              <div id="ext-category" class="ext-value">-</div>
+            </div>
+          </div>
+
+          <button id="btn-confirm-extracted-bill" class="studio-action-btn primary w-full justify-center py-3.5 text-sm font-bold shadow-md">
+            <i data-lucide="check" class="w-4 h-4 text-white"></i>
+            <span data-i18n="confirmAddBtn">تأكيد وإضافة للميزانية</span>
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Application Logic & Sound Engine -->
+  <script src="app.js"></script>
+
+  <!-- Initialize Lucide Icons -->
+  <script>
+    if (window.lucide) {
+      lucide.createIcons();
+    }
+  </script>
+</body>
+</html>

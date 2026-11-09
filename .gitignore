@@ -1,0 +1,8 @@
+# node_modules & temp files
+node_modules/
+.DS_Store
+Thumbs.db
+
+# Headless capture & temporary test screenshots
+capture.js
+*.png
